@@ -14,7 +14,7 @@ type Props = {
 };
 
 const subCategories = [
-  { id: "all", titleAr: "الجميع", titleEn: "All" },
+  { id: "all", titleAr: "الجميع", titleEn: "All", tools: [] as string[] },
   { id: "organize", titleAr: "تنظيم ملف PDF", titleEn: "Organize PDF", tools: ["merge-pdf", "split-pdf", "organize-pdf", "rotate-pdf", "custom-workflow"] },
   { id: "optimize", titleAr: "تحسين مستند", titleEn: "Optimize PDF", tools: ["compress-pdf", "repair-pdf", "ocr-pdf", "compare-pdf", "smart-summary"] },
   { id: "to-pdf", titleAr: "تحويل إلى PDF", titleEn: "Convert to PDF", tools: ["jpg-to-pdf", "word-to-pdf", "powerpoint-to-pdf", "excel-to-pdf", "html-to-pdf", "scan-to-pdf"] },
@@ -58,7 +58,7 @@ export function InteractiveToolsGrid({ categories, locale }: Props) {
 
     if (activeCategory !== "all") {
       const sub = subCategories.find((s) => s.id === activeCategory);
-      if (sub) {
+      if (sub && sub.tools) {
         tools = allTools.filter((tool) => sub.tools.includes(tool.id));
       }
     }
