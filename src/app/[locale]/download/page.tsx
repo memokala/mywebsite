@@ -13,8 +13,6 @@ import {
   ArrowRight,
   Sparkles,
   Monitor,
-  Apple,
-  Chrome,
 } from "lucide-react";
 import { WebSiteSchema } from "@/components/seo/schema";
 
@@ -244,7 +242,7 @@ export default async function DownloadPage({ params }: Props) {
                 <span className="text-sm font-semibold">Android & iOS</span>
               </div>
               <div className="flex items-center gap-2">
-                <Chrome className="w-5 h-5 text-brand-500" />
+                <Globe className="w-5 h-5 text-brand-500" />
                 <span className="text-sm font-semibold">Chrome, Edge & Safari</span>
               </div>
             </div>
