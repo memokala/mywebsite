@@ -64,6 +64,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ProcessingTimer, ShareableResultCard } from "@/components/seo/seo-components";
+import { AdsterraBanner } from "@/components/ads/adsterra-banner";
 
 const toolIcons: Record<string, React.ElementType> = {
   FileText, Image: ImageIcon, Music, Video, Sparkles, Type, Search, Code, Repeat,
@@ -821,6 +822,9 @@ export function ToolTool({ slug }: ToolComponentProps) {
                   processingTime={processingTime}
                   inputFileName={processedData?.name || ''}
                 />
+
+                {/* Adsterra 300x250 High Revenue Banner */}
+                <AdsterraBanner />
               </CardContent>
             </Card>
           )}
