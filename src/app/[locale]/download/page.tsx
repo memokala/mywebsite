@@ -120,7 +120,9 @@ export default async function DownloadPage({ params }: Props) {
 
       <div className="bg-surface-50/50 dark:bg-surface-950 min-h-screen py-12 md:py-20">
         <Container>
-          <Breadcrumbs items={breadcrumbs} className="mb-8" />
+          <div className="mb-8">
+            <Breadcrumbs items={breadcrumbs} />
+          </div>
 
           {/* Hero Banner */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-purple-800 text-white p-8 md:p-14 shadow-2xl mb-16">
