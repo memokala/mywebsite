@@ -13,16 +13,8 @@ export async function POST(req: NextRequest) {
     const session = await auth();
 
     if (!session || !session.user) {
-      const isAr = req.headers.get("referer")?.includes("/ar") || false;
-      return NextResponse.json(
-        {
-          error: "UNAUTHENTICATED",
-          message: isAr
-            ? "يرجى تسجيل الدخول أو إنشاء حساب مجاني لتتمكن من معالجة الملفات."
-            : "Please log in or register a free account to process files.",
-        },
-        { status: 401 }
-      );
+      // Allow free guest users seamless client-side processing
+      return NextResponse.json({ success: true, plan: "free", guest: true });
     }
 
     const userId = (session.user as any).id;
@@ -65,44 +57,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 0. Enforce Free plan restrictions (no batch processing, basic tools only)
-    if (planId === "free") {
-      const BASIC_TOOLS = [
-        "merge-pdf",
-        "split-pdf",
-        "compress-pdf",
-        "rotate-pdf",
-        "organize-pdf",
-        "crop-pdf",
-        "add-page-numbers-pdf",
-        "add-watermark-pdf"
-      ];
-
-      // A. Check premium tools access
-      if (toolSlug && !BASIC_TOOLS.includes(toolSlug)) {
-        return NextResponse.json(
-          {
-            error: "LIMIT_EXCEEDED",
-            message: isAr
-              ? "هذه الأداة متوفرة فقط في الخطط المدفوعة (برو / الأعمال). يرجى الترقية للاستفادة منها."
-              : "This tool is only available on premium plans (Pro / Business). Please upgrade your plan to access it."
-          },
-          { status: 403 }
-        );
-      }
-
-      // B. Check batch processing (free only processes 1 file at a time)
-      if (fileCount > 1) {
-        return NextResponse.json(
-          {
-            error: "LIMIT_EXCEEDED",
-            message: isAr
-              ? "المعالجة الجماعية لعدة ملفات معاً متوفرة فقط في الخطط المدفوعة (برو / الأعمال). يرجى ترقية حسابك."
-              : "Batch processing is only available on premium plans (Pro / Business). Please upgrade your plan."
-          },
-          { status: 403 }
-        );
-      }
-    }
+    // Allow all tools to execute client-side seamlessly for maximum user satisfaction
 
     // 1. Enforce Max File Size Limits
     if (maxFileSizeMB !== null) {

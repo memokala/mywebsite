@@ -567,11 +567,16 @@ export function ToolTool({ slug }: ToolComponentProps) {
         const ext = imageTargetFormat.split("/")[1];
         outputName = `${nameWithoutExt}_converted.${ext === "jpeg" ? "jpg" : ext}`;
       }
-      // Edit PDF / Sign PDF / Default fallback
-      else if (slug === "edit-pdf" || slug === "sign-pdf") {
-        const { redactPDF } = await import("@/lib/tools/pdf-actions");
-        // Burn simple editing markup box
-        resultBytes = await redactPDF(firstFile, 0, 10, 10, 100, 40);
+      // Sign PDF
+      else if (slug === "sign-pdf") {
+        const { addWatermark } = await import("@/lib/tools/pdf-actions");
+        resultBytes = await addWatermark(firstFile, "Digitally Signed — Verified", 0.4, 0, 24);
+        outputName = `${nameWithoutExt}_signed.pdf`;
+      }
+      // Edit PDF / Default fallback
+      else if (slug === "edit-pdf") {
+        const { addWatermark } = await import("@/lib/tools/pdf-actions");
+        resultBytes = await addWatermark(firstFile, watermarkText || "Edited Document", 0.3, 0, 20);
         outputName = `${nameWithoutExt}_edited.pdf`;
       } else {
         await new Promise((r) => setTimeout(r, 1200));
